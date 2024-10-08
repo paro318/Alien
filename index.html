@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyclo Zap</title>
+    <style>
+      @keyframes floatAnimation {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes glowAnimation {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 5px rgba(255, 114, 208, 0.7));
+        }
+        50% {
+          filter: drop-shadow(0 0 20px rgba(255, 114, 208, 1));
+        }
+      }
+
+      @keyframes rotateAnimation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #1a0b2e;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      .parallax-container {
+        height: 100vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        perspective: 1px;
+      }
+
+      .parallax-layer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      .parallax-background {
+        transform: translateZ(-1px) scale(2);
+        background: url('Photo5.jpeg') no-repeat center center;
+        background-size: cover;
+        z-index: -1;
+      }
+
+      .content {
+        transform: translateZ(0);
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: rgba(26, 11, 46, 0.8);
+        backdrop-filter: blur(10px);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+      }
+
+      .logo {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #ff72d0;
+        text-decoration: none;
+        animation: glowAnimation 2s infinite;
+      }
+
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        padding: 2rem;
+        background-color: rgba(26, 11, 46, 0.8);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #ff72d0;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .hero-image {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        animation: floatAnimation 6s ease-in-out infinite;
+      }
+
+      .hero-image:nth-child(1) {
+        top: 15%;
+        left: 10%;
+      }
+
+      .hero-image:nth-child(2) {
+        top: 65%;
+        right: 10%;
+      }
+
+      .features {
+        padding: 4rem 0;
+        background-color: #2d1b4e;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 0 2rem;
+      }
+
+      .feature-card {
+        background-color: #3d2b5e;
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(255, 114, 208, 0.3);
+      }
+
+      .feature-card img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+      }
+
+      .feature-card:hover img {
+        transform: scale(1.1);
+      }
+
+      .community {
+        padding: 4rem 0;
+        text-align: center;
+        background-color: #1a0b2e;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .community::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('Photo1.jpeg') no-repeat center center;
+        background-size: cover;
+        animation: rotateAnimation 60s linear infinite;
+        opacity: 0.1;
+        z-index: 0;
+      }
+
+      .community-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .contract-address {
+        background-color: #3d2b5e;
+        color: #ff72d0;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        display: inline-block;
+        margin-bottom: 2rem;
+        font-weight: bold;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .contract-address:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 114, 208, 0.5);
+      }
+
+      .logo-a {
+        border-radius: 100%;
+      }
+
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .social-icons a {
+        color: #ff72d0;
+        font-size: 2rem;
+        transition: transform 0.3s ease;
+        background-color: #fff;
+        border-radius: 10000;
+        padding: 0.5rem;
+        overflow: hidden;
+      }
+      .social-icons a svg,
+      .social-icons a img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .social-icons a:hover {
+        transform: scale(1.2) rotate(15deg);
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-image {
+          width: 150px;
+          height: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parallax-container">
+      <div class="parallax-layer parallax-background"></div>
+      <div class="parallax-layer content">
+        <header>
+          <nav>
+            <a href="#" class="logo">Cyclo Zap</a>
+          </nav>
+        </header>
+
+        <main>
+          <section class="hero">
+            <img
+              src="Photo2.jpeg"
+              alt="Cyclo Zap Character"
+              class="hero-image"
+            />
+            <img
+              src="Photo3.jpeg"
+              alt="Cyclo Zap Character"
+              class="hero-image"
+            />
+            <div class="hero-content">
+              <h1>Cyclo Zap</h1>
+              <p>
+                CycloZap is the fearless leader of the Zappers, an alien species
+                that guards the cosmic rivers flowing through the universe. With
+                his signature smile and trusty wrench, CycloZap uses his cosmic
+                energy to protect nature's most vital treasures—golden energy
+                coins.
+              </p>
+            </div>
+          </section>
+
+          <section class="features">
+            <div class="features-grid">
+              <div class="feature-card">
+                <img src="Photo4.jpeg" alt="Cyclo Zap Character" />
+                <h3>Meet Cyclo Zap</h3>
+                <p>The Electrifying Alien on a Cosmic Adventure!</p>
+              </div>
+              <div class="feature-card">
+                <img src="Photo5.jpeg" alt="Cosmic Energy" />
+                <h3>Ticker ZAP</h3>
+                <p>Supply: 1,000,000,000 $ZAP</p>
+              </div>
+              <div class="feature-card">
+                <img src="Photo1.jpeg" alt="Intergalactic HQ" />
+                <h3>Rug Free Launch</h3>
+                <p>Secure and transparent!</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="community">
+            <div class="community-content">
+              <div class="contract-address">
+                <p>Contract Address: Coming soon...</p>
+              </div>
+              <h2>JOIN THE AWESOME COMMUNITY</h2>
+              <div class="social-icons">
+                <a class="logo-a" href="#" aria-label="Twitter">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                    />
+                  </svg>
+                </a>
+                <a class="logo-a" href="#" aria-label="Telegram">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2s-.21-.05-.3-.03c-.14.03-2.29 1.45-6.46 4.26-.61.42-1.16.63-1.65.61-.54-.01-1.58-.31-2.35-.57-.95-.32-1.7-.49-1.63-.98.04-.26.32-.53.86-.82 3.37-1.47 5.61-2.45 6.74-2.94 3.21-1.41 3.87-1.65 4.31-1.66.09 0 .31.02.45.12.13.09.17.22.18.34 0 .1.01.22 0 .35z"
+                    />
+                  </svg>
+                </a>
+                <a class="logo-a" href="#" aria-label="Ape Store">
+                  <img class="logo" src="logo.png" />
+                </a>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
